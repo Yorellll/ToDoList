@@ -10,12 +10,22 @@
 
   //   Définition des variables initiales
   let title = "";
-  let liste: Liste[] = [];
+
+  let todos: Liste[] = JSON.parse(localStorage.getItem("todosList") || "[]");
 
   //   Création d'une liste et récupération de son nom
   const redirectAndCreate = () => {
-    liste.push({ title: title, archive: false, todos: [] });
-    localStorage.setItem("todos", JSON.stringify(liste));
+    // Définition de la liste
+    const list = {
+      title: title,
+      archive: false,
+      todos: [],
+    };
+
+    // Ajout de la liste dans notre todos qui est vide ou qui récupère les listes déjà existantes
+    // Et on rajoute à todos la liste créée
+    todos = [...todos, list];
+    localStorage.setItem("todosList", JSON.stringify(todos));
 
     // Redirection vers la liste créée
     navigate(`/${title}`);
