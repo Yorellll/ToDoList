@@ -1,18 +1,26 @@
-<!--//TODO Faire le form qui créé la liste la et qui créé le lien vers celle ci pour rediriger l'utiliteur à la création-->
 <script lang="ts">
+  import { navigate } from "svelte-routing";
 
-    import {navigate} from "svelte-routing";
+  // Type Liste pour la création de la liste
+  type Liste = {
+    title: String;
+    archive: Boolean;
+    todos: String[];
+  };
 
-    let title = "";
-    let liste = [true];
+  //   Définition des variables initiales
+  let title = "";
+  let liste: Liste[] = [];
 
-    const redirectAndCreate = () => {
+  //   Création d'une liste et récupération de son nom
+  const redirectAndCreate = () => {
+    liste.push({ title: title, archive: false, todos: [] });
+    localStorage.setItem("todos", JSON.stringify(liste));
 
-        localStorage.setItem(title, JSON.stringify(liste))
-
-        navigate(`/${title}`);
-    }
+    // Redirection vers la liste créée
+    navigate(`/${title}`);
+  };
 </script>
 
-<input id="Title" type="text" bind:value={title}/>
-<button on:click={redirectAndCreate} >Créer</button>
+<input id="Title" type="text" bind:value={title} />
+<button on:click={redirectAndCreate}>Créer</button>
