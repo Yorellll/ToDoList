@@ -1,18 +1,27 @@
 <script lang="ts">
+    let tmp: string | null;
+    let listeTodos: [string, unknown][];
 
-    let id = 0;
-    let title = String();
-    let sousListes: Array<Object> = [];
-    let isEnCours = true;
-
-    const addListe = () => {
-        sousListes.push();
+    const getTodos = () => {
+        tmp = localStorage.getItem("todosList");
+        if (tmp) {
+            listeTodos = Object.entries(JSON.parse(tmp));
+            console.log(listeTodos);
+        }
     }
-
-    const deleteListe = (id: number) => {
-        sousListes = sousListes.filter( t => t.id !== id )
-    }
-
 </script>
-
-<input id="Title" bind:value={title} />
+<button on:click={getTodos}>Refresh</button>
+<ul>
+    {#if listeTodos}
+        {#each listeTodos as todo}
+            <!--{#if typeof todo[1] === "object"}-->
+            <li>
+                <h2>{todo[1]?.title}</h2>
+                <button>Supprimer</button>
+                <button>Archiver</button>
+            </li>
+            <br>
+            <!--{/if}-->
+        {/each}
+    {/if}
+</ul>
