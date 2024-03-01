@@ -1,19 +1,21 @@
-<script lang="ts">
+<script lang="ts" context="module">
   import { navigate } from "svelte-routing";
 
   // Type Liste pour la création de la liste
-  type Liste = {
+  export type typeListe = {
     title: String;
     archive: Boolean;
     todos: String[];
   };
 
-  //   Définition des variables initiales
+  // Définition des variables initiales
   let title = "";
 
-  let todos: Liste[] = JSON.parse(localStorage.getItem("todosList") || "[]");
+  let todos: typeListe[] = JSON.parse(
+    localStorage.getItem("todosList") || "[]"
+  );
 
-  //   Création d'une liste et récupération de son nom
+  // Création d'une liste et récupération de son nom
   const redirectAndCreate = () => {
     // Définition de la liste
     const list = {
@@ -28,9 +30,13 @@
     localStorage.setItem("todosList", JSON.stringify(todos));
 
     // Redirection vers la liste créée
-    navigate(`/${title}`);
+    // .tolowerCase() pour éviter les problèmes de casse
+    navigate(`/${title.toLowerCase()}`);
   };
 </script>
 
-<input id="Title" type="text" bind:value={title} />
-<button on:click={redirectAndCreate}>Créer</button>
+<section class="create container">
+  <h1 class="big-title">Créer une liste</h1>
+  <input id="Title" type="text" bind:value={title} />
+  <button on:click={redirectAndCreate}>Créer</button>
+</section>

@@ -1,27 +1,30 @@
 <script lang="ts">
-    let tmp: string | null;
-    let listeTodos: [string, unknown][];
+  import type { typeListe } from "./FormListe.svelte";
+  // Le type des todos à été difini à la création, je le récupère juste
+  let listeTodos: typeListe[];
 
-    const getTodos = () => {
-        tmp = localStorage.getItem("todosList");
-        if (tmp) {
-            listeTodos = Object.entries(JSON.parse(tmp));
-            console.log(listeTodos);
-        }
-    }
+  const getTodos = () => {
+    // Pour récupérer les todos
+    listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
+    // console.log(listeTodos);
+  };
+
+  // Déclenchenement de la fonction getTodos
+  getTodos();
 </script>
-<button on:click={getTodos}>Refresh</button>
-<ul>
+
+<!-- <button on:click={getTodos}>Refresh</button> -->
+<section class="lists container">
+  <h1 class="big-title">Listes en activités</h1>
+  <ul class="lists-content">
     {#if listeTodos}
-        {#each listeTodos as todo}
-            <!--{#if typeof todo[1] === "object"}-->
-            <li>
-                <h2>{todo[1]?.title}</h2>
-                <button>Supprimer</button>
-                <button>Archiver</button>
-            </li>
-            <br>
-            <!--{/if}-->
-        {/each}
+      {#each listeTodos as todo}
+        <li class="list">
+          <h2>{todo?.title}</h2>
+          <button>Supprimer</button>
+          <button>Archiver</button>
+        </li>
+      {/each}
     {/if}
-</ul>
+  </ul>
+</section>
