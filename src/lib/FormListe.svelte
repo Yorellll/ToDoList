@@ -1,3 +1,4 @@
+
 <script lang="ts" context="module">
   import { navigate } from "svelte-routing";
 
