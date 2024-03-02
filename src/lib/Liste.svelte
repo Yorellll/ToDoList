@@ -15,12 +15,12 @@
 
 <!-- <button on:click={getTodos}>Refresh</button> -->
 <section class="lists container">
-  <h1 class="big-title">Listes en activités</h1>
+  <h2 class="big-title">Listes actives</h2>
   <ul class="lists-content">
     {#if listeTodos}
       {#each listeTodos as todo}
         <li class="list">
-          <h2>{todo?.title}</h2>
+          <a href="/{todo?.title}"><h3>{todo?.title}</h3></a>
           <button>Supprimer</button>
           <button>Archiver</button>
         </li>

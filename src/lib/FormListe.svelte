@@ -37,6 +37,14 @@
 
 <section class="create container">
   <h1 class="big-title">Créer une liste</h1>
-  <input id="Title" type="text" bind:value={title} />
-  <button on:click={redirectAndCreate}>Créer</button>
+  <div class="create-input">
+    <label for="title">Nom de la liste</label>
+    <input
+      id="title"
+      type="text"
+      bind:value={title}
+      placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+    />
+    <button class="btn btn-header" on:click={redirectAndCreate}>Créer</button>
+  </div>
 </section>
