@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <p>
   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum sed, nihil quos
   sint numquam tenetur repudiandae veniam blanditiis magnam. Repellat accusamus
