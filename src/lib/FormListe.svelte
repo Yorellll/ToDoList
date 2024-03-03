@@ -20,7 +20,7 @@
   const redirectAndCreate = () => {
     // Définition de la liste
     const list = {
-      title: title,
+      title: title.toLowerCase(),
       archive: false,
       todos: [],
     };
@@ -32,7 +32,7 @@
 
     // Redirection vers la liste créée
     // .tolowerCase() pour éviter les problèmes de casse
-    navigate(`/${title.toLowerCase()}`);
+    navigate(`/${title}`);
   };
 </script>
 
