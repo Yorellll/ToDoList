@@ -20,7 +20,7 @@
     {#if listeTodos}
       {#each listeTodos as todo}
         <li class="list">
-          <a href="/{todo?.title}"><h3>{todo?.title}</h3></a>
+          <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
           <button>Supprimer</button>
           <button>Archiver</button>
         </li>

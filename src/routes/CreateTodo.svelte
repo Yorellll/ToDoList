@@ -13,7 +13,7 @@
   // console.log(todos);
 
   // Stock et récupère la liste à afficher qui correspond à mon url
-  let todoToShow = todos.find((todo) => todo.title.toLowerCase() === location);
+  let todoToShow = todos.find((todo) => todo.urlTitle === location);
 
   console.log(todoToShow);
 </script>

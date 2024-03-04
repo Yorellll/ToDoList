@@ -1,10 +1,10 @@
-
 <script lang="ts" context="module">
   import { navigate } from "svelte-routing";
 
   // Type Liste pour la création de la liste
   export type typeListe = {
     title: String;
+    urlTitle: String;
     archive: Boolean;
     todos: String[];
   };
@@ -16,11 +16,14 @@
     localStorage.getItem("todosList") || "[]"
   );
 
+  const pattern = /[^a-zA-Z0-9\u00C0-\u017F]+/g;
+
   // Création d'une liste et récupération de son nom
   const redirectAndCreate = () => {
     // Définition de la liste
     const list = {
-      title: title.toLowerCase(),
+      title: title,
+      urlTitle: title.replace(pattern, "-"),
       archive: false,
       todos: [],
     };
@@ -32,7 +35,7 @@
 
     // Redirection vers la liste créée
     // .tolowerCase() pour éviter les problèmes de casse
-    navigate(`/${title}`);
+    navigate(`/${title.replace(pattern, "-")}`);
   };
 </script>
 
@@ -49,3 +52,8 @@
     <button class="btn btn-header" on:click={redirectAndCreate}>Créer</button>
   </div>
 </section>
+<!-- Pas besoin de générer un page.ts et +page.svelteHTML
+Mettre son dossier dans un dossier [todo]
+faire le fichier +page.svelte
+Récupérer le params de title
+-->
