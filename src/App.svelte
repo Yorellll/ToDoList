@@ -7,7 +7,7 @@
 
 <Router>
   <Route path="/" component={Dashboard} />
-  <Route path="/:list">
+  <Route path="/:todo">
     <CreateTodo />
   </Route>
   <Route path="/create" component={FormListe} />
