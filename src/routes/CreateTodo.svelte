@@ -1,9 +1,5 @@
 <script lang="ts">
-<<<<<<< HEAD
-  import type { typeListe } from "../lib/FormList.svelte";
-=======
-    import type { taskType, typeListe} from "../lib/FormListe.svelte";
->>>>>>> 38426f6 (Ajout de la fonction achieved)
+    import type { taskType, typeListe} from "../lib/FormList.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -12,11 +8,11 @@
   // Définition des variables initiales
   let todoTitle = "";
 =======
-    //Task courante que l'on ajoute, du type taskType ajouté dans FormListe
-    const todoTitle: taskType = {
-        task:"",
-        check: false
-    }
+  //Task courante que l'on ajoute, du type taskType ajouté dans FormListe
+  const todoTitle: taskType = {
+    task: "",
+    check: false,
+  };
 >>>>>>> 38426f6 (Ajout de la fonction achieved)
 
   // Récupération de l'url en la formattant pour récupérer le nom de la liste
@@ -26,53 +22,35 @@
   todos = JSON.parse(localStorage.getItem("todosList") || "[]");
   // console.log(todos);
 
-  // Stock et récupère la liste à afficher qui correspond à mon url
-  let todoToShow = todos.find((todo) => todo.urlTitle === location);
+    // Stock et récupère la liste à afficher qui correspond à mon url
+    let todoToShow = todos.find((todo) => todo.urlTitle === location);
 
-<<<<<<< HEAD
+
   console.log(todoToShow);
 
   const addTodo = () => {
-    if (todoTitle) {
+    if (todoTitle.task) {
       // Ajout de la nouvelle tâche dans la liste todos
       todoToShow?.todos.push(todoTitle);
       // Mise à jour de la liste dans le localStorage
       localStorage.setItem("todosList", JSON.stringify(todos));
       todos = JSON.parse(localStorage.getItem("todosList") || "[]");
       todoToShow = todos.find((todo) => todo.urlTitle === location);
-      todoTitle = "";
+      todoTitle.task = "";
     }
   };
-=======
 
-    console.log(todoToShow);
-
-    const addTodo = () => {
-        if (todoTitle.task) {
-            // Ajout de la nouvelle tâche dans la liste todos
-            todoToShow?.todos.push(todoTitle);
-            // Mise à jour de la liste dans le localStorage
-            localStorage.setItem("todosList", JSON.stringify(todos));
-            todos = JSON.parse(localStorage.getItem("todosList") || "[]");
-            todoToShow = todos.find((todo) => todo.urlTitle === location);
-            todoTitle.task = "";
+  //Cette fonction est appelé à l'update du check, elle met a jour son état et la met à jour dans le stockage
+  const changeCheckState = (nameTask: string, state: boolean) => {
+    if (todoToShow) {
+      todoToShow.todos.forEach(function (task) {
+        if (task.task == nameTask) {
+          task.check = state;
+          localStorage.setItem("todosList", JSON.stringify(todos));
+          todos = JSON.parse(localStorage.getItem("todosList") || "[]");
+          todoToShow = todos.find((todo) => todo.urlTitle === location);
         }
-    };
-
-
-    //Cette fonction est appelé à l'update du check, elle met a jour son état et la met à jour dans le stockage
-    const changeCheckState = (  nameTask: string,state:boolean) => {
-        if (todoToShow){
-            todoToShow.todos.forEach(function (task){
-                if (task.task == nameTask){
-                    task.check = state;
-                    localStorage.setItem("todosList", JSON.stringify(todos));
-                    todos = JSON.parse(localStorage.getItem("todosList") || "[]");
-                    todoToShow = todos.find((todo) => todo.urlTitle === location);
-                }
-
-            })
-        }
+      });
     }
 >>>>>>> 38426f6 (Ajout de la fonction achieved)
 
@@ -132,19 +110,24 @@
     {/if}
 </div>
 
-{#if (todoToShow && todoToShow.todos)}
-    <div class="  task container">
-        {#each todoToShow.todos as taskCourante}
-            <li class="list">
-                <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
-                <input
-                       id="check" type="checkbox"
-                       name="did"
-                       bind:checked={taskCourante.check}
-                       on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
-                       >
-            </li>
-        {/each}
-    </div>
+{#if todoToShow && todoToShow.todos}
+  <div class="  task container">
+    {#each todoToShow.todos as taskCourante}
+      <li class="list">
+        <label
+          class="nameTask"
+          for="did"
+          class:achievedTask={taskCourante.check}>{taskCourante.task}</label
+        >
+        <input
+          id="check"
+          type="checkbox"
+          name="did"
+          bind:checked={taskCourante.check}
+          on:change={() =>
+            changeCheckState(taskCourante.task, taskCourante.check)}
+        />
+      </li>
+    {/each}
+  </div>
 {/if}
->>>>>>> 38426f6 (Ajout de la fonction achieved)

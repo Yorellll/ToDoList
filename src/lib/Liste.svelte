@@ -14,12 +14,21 @@
     todo.archive = !archive;
 
     localStorage.setItem("todosList", JSON.stringify(listeTodos));
-
-    getTodos();
+  const getTodos = () => {
+    // Pour récupérer les todos
+    listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
+    // console.log(listeTodos);
   };
 
-  // Faire un bouton qui cache les todos archivés
-  // Avec du style et ajouter ou supprimer la classe
+  const archiveTodo = (todo: typeListe) => {
+    const archive = todo.archive;
+
+    // On change la valeur de archive
+    todo.archive = !archive;
+    console.log(todo);
+
+    localStorage.setItem("todosList", JSON.stringify(listeTodos));
+  };
 
   // Déclenchenement de la fonction getTodos
   getTodos();
