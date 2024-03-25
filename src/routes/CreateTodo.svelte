@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { typeListe } from "../lib/FormListe.svelte";
+  import type { typeListe } from "../lib/FormList.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
