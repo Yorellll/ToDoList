@@ -23,11 +23,11 @@
   const archiveTodo = (todo: typeListe) => {
     const archive = todo.archive;
 
-    // On change la valeur de archive
     todo.archive = !archive;
-    console.log(todo);
 
     localStorage.setItem("todosList", JSON.stringify(listeTodos));
+
+    getTodos();
   };
 
   // Déclenchenement de la fonction getTodos
