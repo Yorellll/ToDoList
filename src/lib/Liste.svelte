@@ -14,11 +14,11 @@
   const archiveTodo = (todo: typeListe) => {
     const archive = todo.archive;
 
-    // On change la valeur de archive
     todo.archive = !archive;
-    console.log(todo);
 
     localStorage.setItem("todosList", JSON.stringify(listeTodos));
+
+    getTodos();
   };
 
   // Déclenchenement de la fonction getTodos
@@ -28,9 +28,31 @@
 <!-- <button on:click={getTodos}>Refresh</button> -->
 <section class="lists container">
   <h2 class="big-title">Listes actives</h2>
-  <ul class="lists-content">
+  <ul class="lists-content" aria-labelledby="list">
     {#if listeTodos}
       {#each listeTodos as todo}
+        {#if todo.archive !== true}
+          <li class="list">
+            <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
+            <button on:click={() => archiveTodo(todo)}>
+              <img
+                class="list-button"
+                src="/src/assets/archive.svg"
+                alt="Pour archiver"
+              />
+            </button>
+          </li>
+        {/if}
+      {/each}
+    {/if}
+  </ul>
+</section>
+
+<section class="lists archives container">
+  <h3 class="big-title">Listes archivées</h3>
+  <ul role="list" class="lists-content">
+    {#each listeTodos as todo}
+      {#if todo.archive === true}
         <!--        Le const est ici car avec une simple "variable" = " ", elle s'affiche dans le dom-->
         {@const callTask = listTask = todo["todos"]}
         <li class="list">
@@ -55,15 +77,7 @@
             {/each}
           {/if}
         </li>
-      {/each}
-    {/if}
+      {/if}
+    {/each}
   </ul>
-</section>
-
-<section class="archives container">
-  <h3 class="big-title">Listes archivées</h3>
-  <!-- {#if listeTodos}
-    {#each listeTodos as todo}{/each}
-  {/if} -->
-  <ul class="lists-content"></ul>
 </section>
