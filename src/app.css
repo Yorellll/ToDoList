@@ -188,3 +188,22 @@ video {
 .archives {
   margin-top: 8rem;
 }
+
+.archives {
+  margin-top: 8rem;
+}
+
+.task {
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 20px 30px -5px rgba(127, 137, 185, 0.15);
+  font-family: "Manrope", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  color: #848ead;
+}

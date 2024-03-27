@@ -20,11 +20,22 @@
   console.log(todoToShow);
 
   const addTodo = () => {
-    // Ajout de la nouvelle tâche dans la liste todos
-    todoToShow?.todos.push(todoTitle);
-    // Mise à jour de la liste dans le localStorage
-    localStorage.setItem("todosList", JSON.stringify(todos));
+    if (todoTitle) {
+      // Ajout de la nouvelle tâche dans la liste todos
+      todoToShow?.todos.push(todoTitle);
+      // Mise à jour de la liste dans le localStorage
+      localStorage.setItem("todosList", JSON.stringify(todos));
+      todos = JSON.parse(localStorage.getItem("todosList") || "[]");
+      todoToShow = todos.find((todo) => todo.urlTitle === location);
+      todoTitle = "";
+    }
   };
+
+  let check = true;
+  let checkboxStyle = "";
+
+  //class css activer en fonction du check ou non de la checkbox +ajouter un bool dans la liste
+  //de task afin d'enregistrer en session storage l'état de chaque checkbox
 </script>
 
 <div class=" create container">
@@ -42,3 +53,19 @@
     </div>
   {/if}
 </div>
+
+{#if todoToShow && todoToShow.todos}
+  <div class="  task container">
+    {#each todoToShow.todos as task}
+      <li class="list">
+        <label class="nameTask" for="did">{task}</label>
+        <input id="check" type="checkbox" name="did" bind:checked={check} />
+        <!--{#if (check)}-->
+        <!--    {@const checkboxStyle = "text-decoration: line-through;"}-->
+        <!--{:else}-->
+        <!--    {@const checkboxStyle = ""}-->
+        <!--{/if}-->
+      </li>
+    {/each}
+  </div>
+{/if}
