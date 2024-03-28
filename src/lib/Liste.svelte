@@ -36,9 +36,15 @@
   <div>
     <h2 class="big-title">Listes actives</h2>
     {#if hasArchivedTodos}
-      <button class:active={hide} on:click={toggleHideArchive}
-        >Cacher les listes archivées</button
-      >
+      {#if hide === true}
+        <button class:active={hide} on:click={toggleHideArchive}>
+          Afficher les listes archivées
+        </button>
+      {:else}
+        <button class:active={hide} on:click={toggleHideArchive}>
+          Cacher les listes archivées
+        </button>
+      {/if}
     {/if}
   </div>
   <ul class="lists-content" aria-labelledby="list">
