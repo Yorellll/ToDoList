@@ -191,6 +191,10 @@ video {
 
 .archives {
   margin-top: 8rem;
+
+  &.hide {
+    display: none;
+  }
 }
 
 .task {

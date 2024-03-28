@@ -1,5 +1,9 @@
 <script lang="ts">
+<<<<<<< HEAD
     import type { taskType, typeListe} from "../lib/FormList.svelte";
+=======
+  import type { taskType, typeListe } from "../lib/FormList.svelte";
+>>>>>>> 03dfa42 (Add button to show and hide archive)
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
