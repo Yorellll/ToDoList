@@ -6,7 +6,6 @@
   const getTodos = () => {
     // Pour récupérer les todos
     listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
-    // console.log(listeTodos);
   };
 
   const archiveTodo = (todo: typeListe) => {
@@ -18,6 +17,9 @@
 
     getTodos();
   };
+
+  // Faire un bouton qui cache les todos archivés
+  // Avec du style et ajouter ou supprimer la classe
 
   // Déclenchenement de la fonction getTodos
   getTodos();
@@ -31,7 +33,9 @@
       {#each listeTodos as todo}
         {#if todo.archive !== true}
           <li class="list">
-            <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
+            <a aria-label={`Lien vers ${todo.title}`} href="/{todo?.urlTitle}">
+              <h3>{todo?.title}</h3>
+            </a>
             <button on:click={() => archiveTodo(todo)}>
               <img
                 class="list-button"
