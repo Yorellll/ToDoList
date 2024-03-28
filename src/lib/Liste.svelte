@@ -52,6 +52,18 @@
                 alt="Pour archiver"
               />
             </button>
+            {#each { length: 2 } as _, i}
+              {#if todo["todos"][i]}
+                <div>
+                  <label for="did">{todo["todos"][i]["task"]}</label>
+                  <!-- Retirer checkbox et mettre image -->
+                  <input type="checkbox" name="did" />
+                </div>
+                {#if i === 1}
+                  <p>...</p>
+                {/if}
+              {/if}
+            {/each}
           </li>
         {/if}
       {/each}
