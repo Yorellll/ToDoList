@@ -15,29 +15,6 @@
 
   const archiveTodo = (todo: typeListe) => {
     const archive = todo.archive;
-
-    todo.archive = !archive;
-
-    localStorage.setItem("todosList", JSON.stringify(listeTodos));
-  const getTodos = () => {
-    // Pour récupérer les todos
-    listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
-    // console.log(listeTodos);
-  };
-
-  const archiveTodo = (todo: typeListe) => {
-    const archive = todo.archive;
-    todo.archive = !archive;
-
-    localStorage.setItem("todosList", JSON.stringify(listeTodos));
-  const getTodos = () => {
-    // Pour récupérer les todos
-    listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
-    // console.log(listeTodos);
-  };
-
-  const archiveTodo = (todo: typeListe) => {
-    const archive = todo.archive;
     todo.archive = !archive;
 
     localStorage.setItem("todosList", JSON.stringify(listeTodos));
@@ -46,12 +23,12 @@
     getTodos();
   };
 
-  // Pour afficher ou cacher les todos archivées
+  // Pour afficher ou cacher les todos archivées via le bouton
   const toggleHideArchive = () => {
     hide = !hide;
   };
 
-  // Déclenchenement de la fonction getTodos
+  // Pour afficher les todos au chargement de la page
   getTodos();
 </script>
 
