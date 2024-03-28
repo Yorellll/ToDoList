@@ -8,6 +8,7 @@
   // Pour savoir si il y a des todos archivées
   $: hasArchivedTodos = listeTodos.some((todo) => todo.archive === true);
 
+
   const getTodos = () => {
     // Pour récupérer les todos
     listeTodos = JSON.parse(localStorage.getItem("todosList") || "[]");
@@ -33,6 +34,7 @@
 </script>
 
 <section class="lists container">
+
   <div>
     <h2 class="big-title">Listes actives</h2>
     {#if hasArchivedTodos}
@@ -78,7 +80,6 @@
         {/if}
       {/each}
     {/if}
-  </ul>
 </section>
 
 {#if hasArchivedTodos}
