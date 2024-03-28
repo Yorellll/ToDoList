@@ -6,8 +6,13 @@
     title: String;
     urlTitle: String;
     archive: Boolean;
-    todos: String[];
+    todos: taskType[];
   };
+
+   export type taskType ={
+    task: string,
+    check: boolean
+  }
 
   // Définition des variables initiales
   let title = "";

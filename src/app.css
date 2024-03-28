@@ -203,7 +203,18 @@ video {
 }
 
 .list {
+<<<<<<< HEAD
   display: flex;
   justify-content: center;
   color: #848ead;
 }
+=======
+    display: flex;
+    justify-content: center;
+    color: #848ead;
+}
+
+.achievedTask{
+    text-decoration: line-through;
+}
+>>>>>>> 38426f6 (Ajout de la fonction achieved)
