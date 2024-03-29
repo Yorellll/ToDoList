@@ -25,46 +25,37 @@
 
   // Stock et récupère la liste à afficher qui correspond à mon url
   $: todoToShow = todos.find((todo) => todo.urlTitle === location) as typeListe;
-  console.log(todoToShow);
+  // console.log(todoToShow);
 
-  if (subLocation) {
-    todoToShow.subLists.forEach((sub: typeListe) => {
-      if (sub.title.replace(pattern, "-") === subLocation) {
-        todoToShow = sub;
-      }
-    });
-  }
-
-  const addTodo = (currentTodo: typeListe | null) => {
+  const addTodo = (currentTodo: typeListe, subList: boolean) => {
     if (todoTitle.task) {
-      if (currentTodo) {
+      if (subList) {
         // Crée une sous liste
         let subList: typeListe = {
           title: todoTitle.task,
           urlTitle:
-            todoToShow.urlTitle + "/" + todoTitle.task.replace(pattern, "-"),
+            currentTodo.urlTitle + "/" + todoTitle.task.replace(pattern, "-"),
           archive: false,
           todos: [],
           subLists: [],
         };
         // Insère la sous-liste dans la liste en cours
-        todoToShow?.subLists.push(subList);
+        currentTodo?.subLists.push(subList);
+        console.log(currentTodo);
       } else {
         // Ajout de la nouvelle tâche dans la liste todos
-        todoToShow?.todos.push(todoTitle);
+        currentTodo?.todos.push(todoTitle);
       }
       // Mise à jour de la liste dans le localStorage
       localStorage.setItem("todosList", JSON.stringify(todos));
       todos = JSON.parse(localStorage.getItem("todosList") || "[]");
       if (subLocation) {
-        todoToShow = todos.find((todo) => todo.urlTitle === location);
         todoToShow.subLists.forEach((sub: typeListe) => {
           if (sub.title.replace(pattern, "-") === subLocation) {
             todoToShow = sub;
           }
         });
       }
-      console.log(todoToShow);
       todoTitle.task = "";
     }
   };
@@ -78,7 +69,6 @@
           localStorage.setItem("todosList", JSON.stringify(todos));
           todos = JSON.parse(localStorage.getItem("todosList") || "[]");
           if (subLocation) {
-            todoToShow = todos.find((todo) => todo.urlTitle === location);
             todoToShow.subLists.forEach((sub: typeListe) => {
               if (sub.title.replace(pattern, "-") === subLocation) {
                 todoToShow = sub;
@@ -92,7 +82,50 @@
 </script>
 
 <div class=" create container">
-  {#if todoToShow}
+    {#if todoToShow && subLocation}
+        {#each todoToShow.subLists as lists}
+            {#if lists.title.replace(pattern, "-") === subLocation}
+                <h1 class="big-title">{lists.title}</h1>
+                <div class="create-input">
+                    <label for="title">Nom de la liste</label>
+                    <input
+                            id="title"
+                            type="text"
+                            bind:value={todoTitle.task}
+                            placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+                    />
+                    <button class="btn btn-header" on:click={() => addTodo(lists, false)}
+                    >Créer</button
+                    >
+                    {#if !subLocation}
+                        <button class="btn btn-header" on:click={() => addTodo(lists, true)}
+                        >Créer une liste secondaire</button
+                        >
+                    {/if}
+                </div>
+                <div class="  task container">
+                    {#each lists.todos as taskCourante}
+                        <li class="list">
+                            <label
+                                    class="nameTask"
+                                    for="did"
+                                    class:achievedTask={taskCourante.check}>{taskCourante.task}</label
+                            >
+                            <input
+                                    id="check"
+                                    type="checkbox"
+                                    name="did"
+                                    bind:checked={taskCourante.check}
+                                    on:change={() =>
+            changeCheckState(taskCourante.task, taskCourante.check)}
+                            />
+                        </li>
+                    {/each}
+                </div>
+                {/if}
+            {/each}
+        {/if}
+  {#if todoToShow && !subLocation}
     <h1 class="big-title">{todoToShow.title}</h1>
     <div class="create-input">
       <label for="title">Nom de la liste</label>
@@ -102,11 +135,11 @@
         bind:value={todoTitle.task}
         placeholder="Repas, Achat Vélo, Gateau au chocolat..."
       />
-      <button class="btn btn-header" on:click={() => addTodo(null)}
+      <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}
         >Créer</button
       >
       {#if !subLocation}
-        <button class="btn btn-header" on:click={() => addTodo(todoToShow)}
+        <button class="btn btn-header" on:click={() => addTodo(todoToShow, true)}
           >Créer une liste secondaire</button
         >
       {/if}
@@ -114,8 +147,8 @@
   {/if}
 </div>
 
-{#if todoToShow && todoToShow.todos.length > 0}
-  {#if !subLocation && todoToShow.subLists}
+{#if todoToShow && todoToShow.todos.length > 0 && !subLocation}
+  {#if todoToShow.subLists}
     <div class="subList container">
       <h2>Vos listes secondaires</h2>
       {#each todoToShow.subLists as currentList}
