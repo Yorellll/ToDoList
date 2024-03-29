@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { taskType, typeListe } from "../lib/FormListe.svelte";
+  import type { taskType, typeListe } from "../lib/FormList.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -19,8 +19,6 @@
 
   // Stock et récupère la liste à afficher qui correspond à mon url
   let todoToShow = todos.find((todo) => todo.urlTitle === location);
-
-  console.log(todoToShow);
 
   const addTodo = () => {
     if (todoTitle.task) {

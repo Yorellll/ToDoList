@@ -1,9 +1,13 @@
 <script lang="ts">
-  import App from "../App.svelte";
   import type { typeListe } from "./FormList.svelte";
   // Le type des todos à été difini à la création, je le récupère juste
   let listeTodos: typeListe[];
-  let listTask: String[];
+  // Par défaut on cach les todos archivées
+  let hide: boolean = true;
+
+  // Pour savoir si il y a des todos archivées
+  $: hasArchivedTodos = listeTodos.some((todo) => todo.archive === true);
+
 
   const getTodos = () => {
     // Pour récupérer les todos
@@ -12,24 +16,39 @@
 
   const archiveTodo = (todo: typeListe) => {
     const archive = todo.archive;
-
     todo.archive = !archive;
 
     localStorage.setItem("todosList", JSON.stringify(listeTodos));
+    hide = false;
 
     getTodos();
   };
 
-  // Faire un bouton qui cache les todos archivés
-  // Avec du style et ajouter ou supprimer la classe
+  // Pour afficher ou cacher les todos archivées via le bouton
+  const toggleHideArchive = () => {
+    hide = !hide;
+  };
 
-  // Déclenchenement de la fonction getTodos
+  // Pour afficher les todos au chargement de la page
   getTodos();
 </script>
 
-<!-- <button on:click={getTodos}>Refresh</button> -->
 <section class="lists container">
-  <h2 class="big-title">Listes actives</h2>
+
+  <div>
+    <h2 class="big-title">Listes actives</h2>
+    {#if hasArchivedTodos}
+      {#if hide === true}
+        <button class:active={hide} on:click={toggleHideArchive}>
+          Afficher les listes archivées
+        </button>
+      {:else}
+        <button class:active={hide} on:click={toggleHideArchive}>
+          Cacher les listes archivées
+        </button>
+      {/if}
+    {/if}
+  </div>
   <ul class="lists-content" aria-labelledby="list">
     {#if listeTodos}
       {#each listeTodos as todo}
@@ -61,25 +80,26 @@
         {/if}
       {/each}
     {/if}
-  </ul>
 </section>
 
-<section class="lists archives container">
-  <h3 class="big-title">Listes archivées</h3>
-  <ul role="list" class="lists-content">
-    {#each listeTodos as todo}
-      {#if todo.archive === true}
-        <li class="list">
-          <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
-          <button on:click={() => archiveTodo(todo)}>
-            <img
-              class="list-button"
-              src="/src/assets/archive.svg"
-              alt="Pour archiver"
-            />
-          </button>
-        </li>
-      {/if}
-    {/each}
-  </ul>
-</section>
+{#if hasArchivedTodos}
+  <section class:hide class="lists archives container">
+    <h3 class="big-title">Listes archivées</h3>
+    <ul role="list" class="lists-content">
+      {#each listeTodos as todo}
+        {#if todo.archive === true}
+          <li class="list">
+            <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
+            <button on:click={() => archiveTodo(todo)}>
+              <img
+                class="list-button"
+                src="/src/assets/archive.svg"
+                alt="Pour archiver"
+              />
+            </button>
+          </li>
+        {/if}
+      {/each}
+    </ul>
+  </section>
+{/if}
