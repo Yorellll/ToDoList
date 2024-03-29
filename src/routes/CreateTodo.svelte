@@ -13,6 +13,7 @@
   const todoTitle: taskType = {
     task: "",
     check: false,
+    date: Date.now(),
   };
 
   // Récupération de l'url en la formattant pour récupérer le nom de la liste
@@ -21,7 +22,7 @@
 
   // Pour récupérer les todos
   todos = JSON.parse(localStorage.getItem("todosList") || "[]");
-  // console.log(todos);
+  console.log(todos);
 
   // Stock et récupère la liste à afficher qui correspond à mon url
   $: todoToShow = todos.find((todo) => todo.urlTitle === location) as typeListe;
@@ -38,13 +39,14 @@
           archive: false,
           todos: [],
           subLists: [],
+          date: Date.now(),
         };
         // Insère la sous-liste dans la liste en cours
-        currentTodo?.subLists.push(subList);
-        console.log(currentTodo);
+        currentTodo.subLists.push(subList);
+        // console.log(currentTodo);
       } else {
         // Ajout de la nouvelle tâche dans la liste todos
-        currentTodo?.todos.push(todoTitle);
+        currentTodo.todos.push(todoTitle);
       }
       // Mise à jour de la liste dans le localStorage
       localStorage.setItem("todosList", JSON.stringify(todos));
@@ -82,49 +84,53 @@
 </script>
 
 <div class=" create container">
-    {#if todoToShow && subLocation}
-        {#each todoToShow.subLists as lists}
-            {#if lists.title.replace(pattern, "-") === subLocation}
-                <h1 class="big-title">{lists.title}</h1>
-                <div class="create-input">
-                    <label for="title">Nom de la liste</label>
-                    <input
-                            id="title"
-                            type="text"
-                            bind:value={todoTitle.task}
-                            placeholder="Repas, Achat Vélo, Gateau au chocolat..."
-                    />
-                    <button class="btn btn-header" on:click={() => addTodo(lists, false)}
-                    >Créer</button
-                    >
-                    {#if !subLocation}
-                        <button class="btn btn-header" on:click={() => addTodo(lists, true)}
-                        >Créer une liste secondaire</button
-                        >
-                    {/if}
-                </div>
-                <div class="  task container">
-                    {#each lists.todos as taskCourante}
-                        <li class="list">
-                            <label
-                                    class="nameTask"
-                                    for="did"
-                                    class:achievedTask={taskCourante.check}>{taskCourante.task}</label
-                            >
-                            <input
-                                    id="check"
-                                    type="checkbox"
-                                    name="did"
-                                    bind:checked={taskCourante.check}
-                                    on:change={() =>
-            changeCheckState(taskCourante.task, taskCourante.check)}
-                            />
-                        </li>
-                    {/each}
-                </div>
-                {/if}
-            {/each}
-        {/if}
+  {#if todoToShow && subLocation}
+    {#each todoToShow.subLists as lists}
+      {#if lists.title.replace(pattern, "-") === subLocation}
+        <h1 class="big-title">{lists.title}</h1>
+        <div class="create-input">
+          <label for="title">Nom de la liste</label>
+          <input
+            id="title"
+            type="text"
+            bind:value={todoTitle.task}
+            placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+          />
+          <button class="btn btn-header" on:click={() => addTodo(lists, false)}>
+            Créer
+          </button>
+          {#if !subLocation}
+            <button
+              class="btn btn-header"
+              on:click={() => addTodo(lists, true)}
+            >
+              Créer une liste secondaire
+            </button>
+          {/if}
+        </div>
+        <div class="container">
+          {#each lists.todos as taskCourante}
+            <div class="task">
+              <label
+                class="nameTask"
+                for="did"
+                class:achievedTask={taskCourante.check}
+                >{taskCourante.task}</label
+              >
+              <input
+                id="check"
+                type="checkbox"
+                name="did"
+                bind:checked={taskCourante.check}
+                on:change={() =>
+                  changeCheckState(taskCourante.task, taskCourante.check)}
+              />
+            </div>
+          {/each}
+        </div>
+      {/if}
+    {/each}
+  {/if}
   {#if todoToShow && !subLocation}
     <h1 class="big-title">{todoToShow.title}</h1>
     <div class="create-input">
@@ -139,7 +145,9 @@
         >Créer</button
       >
       {#if !subLocation}
-        <button class="btn btn-header" on:click={() => addTodo(todoToShow, true)}
+        <button
+          class="btn btn-header"
+          on:click={() => addTodo(todoToShow, true)}
           >Créer une liste secondaire</button
         >
       {/if}
@@ -152,20 +160,20 @@
     <div class="subList container">
       <h2>Vos listes secondaires</h2>
       {#each todoToShow.subLists as currentList}
-        <li class="list">
+        <div class="list">
           <a
             aria-label={`Lien vers ${currentList.title}`}
             href="/{currentList?.urlTitle}"
           >
             <h3>{currentList?.title}</h3>
           </a>
-        </li>
+        </div>
       {/each}
     </div>
   {/if}
-  <div class="  task container">
+  <div class="container">
     {#each todoToShow.todos as taskCourante}
-      <li class="list">
+      <li class:achieve={taskCourante.check} class="task">
         <label
           class="nameTask"
           for="did"

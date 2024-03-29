@@ -8,12 +8,14 @@
     archive: Boolean;
     todos: taskType[];
     subLists: typeListe[];
+    date: number;
   };
 
-   export type taskType ={
-    task: string,
-    check: boolean
-  }
+  export type taskType = {
+    task: string;
+    check: boolean;
+    date: number;
+  };
 
   // Définition des variables initiales
   let title = "";
@@ -29,20 +31,22 @@
     // Définition de la liste
     const list = {
       title: title,
-      urlTitle: title.replace(pattern, "-"),
+      urlTitle: title.replace(pattern, "-").toLowerCase(),
       archive: false,
       todos: [],
       subLists: [],
+      date: Date.now(),
     };
 
     // Ajout de la liste dans notre todos qui est vide ou qui récupère les listes déjà existantes
     // Et on rajoute à todos la liste créée
     todos = [...todos, list];
     localStorage.setItem("todosList", JSON.stringify(todos));
+    console.log(title.replace(pattern, "-").toLowerCase());
 
     // Redirection vers la liste créée
     // .tolowerCase() pour éviter les problèmes de casse
-    navigate(`/${title.replace(pattern, "-")}`);
+    navigate(`/${title.replace(pattern, "-").toLowerCase()}`);
   };
 </script>
 
