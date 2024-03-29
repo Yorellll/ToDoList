@@ -7,6 +7,7 @@
     urlTitle: String;
     archive: Boolean;
     todos: taskType[];
+    subLists: typeListe[];
   };
 
    export type taskType ={
@@ -21,7 +22,7 @@
     localStorage.getItem("todosList") || "[]"
   );
 
-  const pattern = /[^a-zA-Z0-9\u00C0-\u017F]+/g;
+  export const pattern = /[^a-zA-Z0-9\u00C0-\u017F]+/g;
 
   // Création d'une liste et récupération de son nom
   const redirectAndCreate = () => {
@@ -31,6 +32,7 @@
       urlTitle: title.replace(pattern, "-"),
       archive: false,
       todos: [],
+      subLists: [],
     };
 
     // Ajout de la liste dans notre todos qui est vide ou qui récupère les listes déjà existantes
