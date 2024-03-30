@@ -1,6 +1,6 @@
 <header class="header container">
   <a href="/">
-    <h1>TODO</h1>
+    <img class="header-img" src="/src/assets/TODOList.jpg" alt="Create your own todolist">
   </a>
   <a class="btn btn-header" href="/create">Créer une Todo</a>
 </header>

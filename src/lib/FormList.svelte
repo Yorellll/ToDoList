@@ -8,12 +8,14 @@
     archive: Boolean;
     todos: taskType[];
     subLists: typeListe[];
+    date: number;
   };
 
-   export type taskType ={
-    task: string,
-    check: boolean
-  }
+  export type taskType = {
+    task: string;
+    check: boolean;
+    date: number;
+  };
 
   // Définition des variables initiales
   let title = "";
@@ -22,6 +24,12 @@
     localStorage.getItem("todosList") || "[]"
   );
 
+  // Pour retirer les accents et caractères spéciaux
+  export const withoutAccent = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  // Regex pour avoir une url propre
   export const pattern = /[^a-zA-Z0-9\u00C0-\u017F]+/g;
 
   // Création d'une liste et récupération de son nom
@@ -29,10 +37,11 @@
     // Définition de la liste
     const list = {
       title: title,
-      urlTitle: title.replace(pattern, "-"),
+      urlTitle: withoutAccent(title.replace(pattern, "-").toLowerCase()),
       archive: false,
       todos: [],
       subLists: [],
+      date: Date.now(),
     };
 
     // Ajout de la liste dans notre todos qui est vide ou qui récupère les listes déjà existantes
@@ -41,8 +50,7 @@
     localStorage.setItem("todosList", JSON.stringify(todos));
 
     // Redirection vers la liste créée
-    // .tolowerCase() pour éviter les problèmes de casse
-    navigate(`/${title.replace(pattern, "-")}`);
+    navigate(`/${withoutAccent(title.replace(pattern, "-").toLowerCase())}`);
   };
 </script>
 
@@ -59,8 +67,3 @@
     <button class="btn btn-header" on:click={redirectAndCreate}>Créer</button>
   </div>
 </section>
-<!-- Pas besoin de générer un page.ts et +page.svelteHTML
-Mettre son dossier dans un dossier [todo]
-faire le fichier +page.svelte
-Récupérer le params de title
--->

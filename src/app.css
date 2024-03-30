@@ -16,7 +16,7 @@
 
 body {
   min-height: 100dvh;
-  background-color: #f2f2f2;
+  /* background-color: #f2f2f2; */
 }
 
 h1,
@@ -63,13 +63,29 @@ video {
   max-width: 100%;
 }
 
+.container {
+  width: min(100% - 3.2rem, 110rem);
+  margin-inline: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.4rem 0 0;
+
+  img {
+    width: 150px;
+  }
+}
+
 .btn {
   width: 170px;
   height: 41px;
   font-size: 1.2rem;
   font-weight: 800;
   text-align: center;
-  border-radius: 2.05rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,27 +102,25 @@ video {
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2.4rem 0 0;
+.btn-special {
+  /* background-color: #293356; */
+  border-radius: 8px;
+  border: 1px solid #293356;
+  width: 200px;
+  color: #293356;
+  transition: all 0.3s;
 
-  & h1 {
-    color: #80fff3;
-    font-size: 2.8rem;
-    font-weight: 800;
-    text-shadow: 4px 4px 8px rgba(128, 255, 243, 0.6);
+  &:hover {
+    border-color: transparent;
+    background-color: #1e2a3a;
+    color: #fff;
+    transition: all 0.3s;
+    cursor: pointer;
   }
 }
 
-.container {
-  width: min(100% - 3.2rem, 120rem);
-  margin-inline: auto;
-}
-
 .big-title {
-  text-align: center;
+  /* text-align: center; */
   font-size: 2.8rem;
   font-weight: 800;
   color: #293356;
@@ -114,9 +128,15 @@ video {
 }
 
 .lists {
+  & .lists-title {
+    margin: 4rem 0 3rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
   & .lists-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
     gap: 2rem;
   }
 }
@@ -131,6 +151,13 @@ video {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid #f2f2f2;
+    transition: scale 0.3s;
+
+    &:hover {
+      scale: 1.05;
+      transition: scale 0.3s;
+    }
 
     & .list-button {
       width: 25px;
@@ -150,11 +177,11 @@ video {
     width: 100%;
     padding: 1.2rem;
     border-radius: 8px;
-    background: #fff;
+    /* background: #fff; */
     margin-bottom: 2.4rem;
-    max-width: 54rem;
-    margin-inline: auto;
-    box-shadow: 0px 20px 30px -5px rgba(127, 137, 185, 0.15);
+    /* max-width: 54rem; */
+    /* margin-inline: auto; */
+    /* box-shadow: 0px 20px 30px -5px rgba(127, 137, 185, 0.15); */
 
     & label {
       font-size: 1.4rem;
@@ -167,10 +194,11 @@ video {
     & input {
       width: 100%;
       padding: 1.2rem;
-      border-radius: 8px;
-      background: #f2f2f2;
+      /* border-radius: 8px; */
+      /* background: #f2f2f2; */
+      border-bottom: 2px solid #f2f2f2;
       font-size: 1.4rem;
-      font-weight: 800;
+      font-weight: 600;
       color: #293356;
     }
   }
@@ -185,25 +213,70 @@ video {
   }
 }
 
+.input-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.showList {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  color: #848ead;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 2px;
+
+  & img {
+    width: 25px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .archives {
   margin-top: 8rem;
 }
 
 .archives {
   margin-top: 8rem;
-  
+  margin-bottom: 8rem;
+
   &.hide {
     display: none;
   }
 }
 
 .task {
-  border-radius: 10px;
   background-color: white;
-  box-shadow: 0px 20px 30px -5px rgba(127, 137, 185, 0.15);
+  box-shadow: 0px 5px 30px -5px rgba(127, 137, 185, 0.15);
   font-family: "Manrope", sans-serif;
   font-size: 1.4rem;
-  font-weight: 800;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 2rem;
+  padding: 2rem;
+  border: 1px solid #f2f2f2;
+  border-radius: 1rem;
+
+  & input[type="checkbox"] {
+    accent-color: #848ead;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.achieve {
+    background-color: #fafafa;
+  }
 }
 
 .list {
@@ -214,4 +287,5 @@ video {
 
 .achievedTask {
   text-decoration: line-through;
+  color: #848ead;
 }
