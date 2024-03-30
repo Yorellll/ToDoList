@@ -16,6 +16,8 @@
     date: Date.now(),
   };
 
+  let tab: any = [];
+
   // Récupération de l'url en la formattant pour récupérer le nom de la liste
   const location = document.location.pathname.split("/")[1];
   const subLocation = document.location.pathname.split("/")[2];
@@ -27,6 +29,14 @@
   // Stock et récupère la liste à afficher qui correspond à mon url
   $: todoToShow = todos.find((todo) => todo.urlTitle === location) as typeListe;
   // console.log(todoToShow);
+
+  const sortTodos = () => {
+    tab = [ ...todoToShow.todos, ...todoToShow.subLists];
+
+    tab.sort((a: any, b: any) => b.date- a.date);
+
+    return true;
+  }
 
   const addTodo = (currentTodo: typeListe, subList: boolean) => {
     if (todoTitle.task) {
@@ -58,6 +68,7 @@
         });
       }
       todoTitle.task = "";
+      todoTitle.date = Date.now();
     }
   };
 
@@ -139,21 +150,10 @@
   {/if}
 </div>
 
-{#if todoToShow && todoToShow.todos.length > 0 && !subLocation}
-  {#if todoToShow.subLists}
-    <div class="subList container">
-      <h2>Vos listes secondaires</h2>
-      {#each todoToShow.subLists as currentList}
-        <div class="list">
-          <a aria-label={`Lien vers ${currentList.title}`} href="/{currentList.urlTitle}">
-            <h3>{currentList.title}</h3>
-          </a>
-        </div>
-      {/each}
-    </div>
-  {/if}
+{#if todoToShow && todoToShow.todos.length > 0 && !subLocation && sortTodos()}
   <div class="container">
-    {#each todoToShow.todos as taskCourante}
+    {#each tab as taskCourante}
+      {#if taskCourante.task}
       <li class:achieve={taskCourante.check} class="task">
         <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
         <input
@@ -164,6 +164,11 @@
           on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
         />
       </li>
+        {:else }
+        <li class:achieve={taskCourante.check} class="task">
+          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}><a aria-label={`Lien vers ${taskCourante.title}`} href="/{taskCourante.urlTitle}">{taskCourante.title}</a></label>
+        </li>
+      {/if}
     {/each}
   </div>
 {/if}
