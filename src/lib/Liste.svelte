@@ -33,15 +33,17 @@
 </script>
 
 <section class="lists container">
-  <div>
+  <div class="lists-title">
     <h2 class="big-title">Listes actives</h2>
     {#if hasArchivedTodos}
       {#if hide === true}
-        <button class:active={hide} on:click={toggleHideArchive}>
+        <button class:active={hide} class="showList" on:click={toggleHideArchive}>
+          <i><img src="/src/assets/show_icon.svg" alt="Afficher les listes archivées"></i>
           Afficher les listes archivées
         </button>
-      {:else}
-        <button class:active={hide} on:click={toggleHideArchive}>
+        {:else}
+        <button class:active={hide} class="showList" on:click={toggleHideArchive}>
+          <i><img src="/src/assets/hide_icon.svg" alt="Cacher les listes archivées"></i>
           Cacher les listes archivées
         </button>
       {/if}

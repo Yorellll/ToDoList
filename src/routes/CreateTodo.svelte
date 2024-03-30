@@ -87,14 +87,16 @@
     {#each todoToShow.subLists as lists}
       {#if withoutAccent(lists.title.replace(pattern, "-").toLowerCase()) === subLocation}
         <h1 class="big-title">{lists.title}</h1>
-        <div class="create-input">
-          <label for="title">Nom de la liste</label>
-          <input
-            id="title"
-            type="text"
-            bind:value={todoTitle.task}
-            placeholder="Repas, Achat Vélo, Gateau au chocolat..."
-          />
+        <div class="input-content">
+          <div class="create-input">
+            <label for="title">Nom de la liste</label>
+            <input
+              id="title"
+              type="text"
+              bind:value={todoTitle.task}
+              placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+            />
+          </div>
           <button class="btn btn-header" on:click={() => addTodo(lists, false)}> Créer </button>
           {#if !subLocation}
             <button class="btn btn-header" on:click={() => addTodo(lists, true)}> Créer une liste secondaire </button>
@@ -119,6 +121,7 @@
   {/if}
   {#if todoToShow && !subLocation}
     <h1 class="big-title">{todoToShow.title}</h1>
+    <div class="input-content">
     <div class="create-input">
       <label for="title">Nom de la liste</label>
       <input
@@ -127,11 +130,12 @@
         bind:value={todoTitle.task}
         placeholder="Repas, Achat Vélo, Gateau au chocolat..."
       />
+    </div>
       <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}>Créer</button>
       {#if !subLocation}
-        <button class="btn btn-header" on:click={() => addTodo(todoToShow, true)}>Créer une liste secondaire</button>
+        <button class="btn btn-special" on:click={() => addTodo(todoToShow, true)}>Créer une liste secondaire</button>
       {/if}
-    </div>
+  </div>
   {/if}
 </div>
 
