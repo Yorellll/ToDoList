@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    pattern,
-    withoutAccent,
-    type taskType,
-    type typeListe
-  } from "../lib/FormList.svelte";
+  import { pattern, withoutAccent, type taskType, type typeListe } from "../lib/FormList.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -31,12 +26,12 @@
   // console.log(todoToShow);
 
   const sortTodos = () => {
-    tab = [ ...todoToShow.todos, ...todoToShow.subLists];
+    tab = [...todoToShow.todos, ...todoToShow.subLists];
 
-    tab.sort((a: any, b: any) => b.date- a.date);
+    tab.sort((a: any, b: any) => b.date - a.date);
 
     return true;
-  }
+  };
 
   const addTodo = (currentTodo: typeListe, subList: boolean) => {
     if (todoTitle.task) {
@@ -91,6 +86,18 @@
       });
     }
   };
+
+  const deleteTodo = (subList: taskType, taskCourante: taskType) => {
+    // console.log(taskCourante);
+    console.log(subList);
+    const element = subList.filter(subElt => subElt.task !== taskCourante.task);
+
+    console.log(element);
+
+    // todos = [...todos, element];
+
+    // localStorage.setItem("todosList", JSON.stringify(todos));
+  };
 </script>
 
 <div class=" create container">
@@ -124,6 +131,7 @@
                 bind:checked={taskCourante.check}
                 on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
               />
+              <button on:click={() => deleteTodo(lists.todos, taskCourante)}>X</button>
             </div>
           {/each}
         </div>
@@ -133,20 +141,20 @@
   {#if todoToShow && !subLocation}
     <h1 class="big-title">{todoToShow.title}</h1>
     <div class="input-content">
-    <div class="create-input">
-      <label for="title">Nom de la liste</label>
-      <input
-        id="title"
-        type="text"
-        bind:value={todoTitle.task}
-        placeholder="Repas, Achat Vélo, Gateau au chocolat..."
-      />
-    </div>
+      <div class="create-input">
+        <label for="title">Nom de la liste</label>
+        <input
+          id="title"
+          type="text"
+          bind:value={todoTitle.task}
+          placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+        />
+      </div>
       <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}>Créer</button>
       {#if !subLocation}
         <button class="btn btn-special" on:click={() => addTodo(todoToShow, true)}>Créer une liste secondaire</button>
       {/if}
-  </div>
+    </div>
   {/if}
 </div>
 
@@ -154,19 +162,22 @@
   <div class="container">
     {#each tab as taskCourante}
       {#if taskCourante.task}
-      <li class:achieve={taskCourante.check} class="task">
-        <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
-        <input
-          id="check"
-          type="checkbox"
-          name="did"
-          bind:checked={taskCourante.check}
-          on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
-        />
-      </li>
-        {:else }
         <li class:achieve={taskCourante.check} class="task">
-          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}><a aria-label={`Lien vers ${taskCourante.title}`} href="/{taskCourante.urlTitle}">{taskCourante.title}</a></label>
+          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
+          <input
+            id="check"
+            type="checkbox"
+            name="did"
+            bind:checked={taskCourante.check}
+            on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
+          />
+        </li>
+      {:else}
+        <li class:achieve={taskCourante.check} class="task">
+          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}
+            ><a aria-label={`Lien vers ${taskCourante.title}`} href="/{taskCourante.urlTitle}">{taskCourante.title}</a
+            ></label
+          >
         </li>
       {/if}
     {/each}
