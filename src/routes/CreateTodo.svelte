@@ -1,10 +1,12 @@
 <script lang="ts">
+
   import {
     pattern,
     withoutAccent,
     type taskType,
     type typeListe
   } from "../lib/FormList.svelte";
+  import BreadCrumb from "../lib/BreadCrumb.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -16,17 +18,26 @@
     date: Date.now(),
   };
 
+  let tab: any = [];
+
   // Récupération de l'url en la formattant pour récupérer le nom de la liste
   const location = document.location.pathname.split("/")[1];
   const subLocation = document.location.pathname.split("/")[2];
 
   // Pour récupérer les todos
   todos = JSON.parse(localStorage.getItem("todosList") || "[]");
-  console.log(todos);
 
   // Stock et récupère la liste à afficher qui correspond à mon url
   $: todoToShow = todos.find((todo) => todo.urlTitle === location) as typeListe;
   // console.log(todoToShow);
+
+  const sortTodos = () => {
+    tab = [...todoToShow.todos, ...todoToShow.subLists];
+
+    tab.sort((a: typeListe, b: taskType) => b.date - a.date);
+
+    return true;
+  };
 
   const addTodo = (currentTodo: typeListe, subList: boolean) => {
     if (todoTitle.task) {
@@ -58,6 +69,7 @@
         });
       }
       todoTitle.task = "";
+      todoTitle.date = Date.now();
     }
   };
 
@@ -80,12 +92,21 @@
       });
     }
   };
+
+  const deleteTodo = (nameTask: string, lists: typeListe) => {
+    // Pour supprimer un élément de la list (pour la liste et la subListe)
+    const removeElt = lists.todos.filter((task) => task.task !== nameTask);
+    lists.todos = removeElt;
+    localStorage.setItem("todosList", JSON.stringify(todos));
+    todos = JSON.parse(localStorage.getItem("todosList") || "[]");
+  };
 </script>
 
 <div class=" create container">
   {#if todoToShow && subLocation}
     {#each todoToShow.subLists as lists}
       {#if withoutAccent(lists.title.replace(pattern, "-").toLowerCase()) === subLocation}
+        <BreadCrumb previousList={todoToShow} currentList={lists} />
         <h1 class="big-title">{lists.title}</h1>
         <div class="input-content">
           <div class="create-input">
@@ -113,6 +134,7 @@
                 bind:checked={taskCourante.check}
                 on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
               />
+              <button on:click={() => deleteTodo(taskCourante.task, lists)}>X</button>
             </div>
           {/each}
         </div>
@@ -122,48 +144,46 @@
   {#if todoToShow && !subLocation}
     <h1 class="big-title">{todoToShow.title}</h1>
     <div class="input-content">
-    <div class="create-input">
-      <label for="title">Nom de la liste</label>
-      <input
-        id="title"
-        type="text"
-        bind:value={todoTitle.task}
-        placeholder="Repas, Achat Vélo, Gateau au chocolat..."
-      />
-    </div>
+      <div class="create-input">
+        <label for="title">Nom de la liste</label>
+        <input
+          id="title"
+          type="text"
+          bind:value={todoTitle.task}
+          placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+        />
+      </div>
       <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}>Créer</button>
       {#if !subLocation}
         <button class="btn btn-special" on:click={() => addTodo(todoToShow, true)}>Créer une liste secondaire</button>
       {/if}
-  </div>
+    </div>
   {/if}
 </div>
 
-{#if todoToShow && todoToShow.todos.length > 0 && !subLocation}
-  {#if todoToShow.subLists}
-    <div class="subList container">
-      <h2>Vos listes secondaires</h2>
-      {#each todoToShow.subLists as currentList}
-        <div class="list">
-          <a aria-label={`Lien vers ${currentList.title}`} href="/{currentList.urlTitle}">
-            <h3>{currentList.title}</h3>
-          </a>
-        </div>
-      {/each}
-    </div>
-  {/if}
+{#if todoToShow && todoToShow.todos.length > 0 && !subLocation && sortTodos()}
   <div class="container">
-    {#each todoToShow.todos as taskCourante}
-      <li class:achieve={taskCourante.check} class="task">
-        <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
-        <input
-          id="check"
-          type="checkbox"
-          name="did"
-          bind:checked={taskCourante.check}
-          on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
-        />
-      </li>
+    {#each tab as taskCourante}
+      {#if taskCourante.task}
+        <li class:achieve={taskCourante.check} class="task">
+          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
+          <input
+            id="check"
+            type="checkbox"
+            name="did"
+            bind:checked={taskCourante.check}
+            on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
+          />
+          <button on:click={() => deleteTodo(taskCourante.task, todoToShow)}>X</button>
+        </li>
+      {:else}
+        <li class:achieve={taskCourante.check} class="task">
+          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}
+            ><a aria-label={`Lien vers ${taskCourante.title}`} href="/{taskCourante.urlTitle}">{taskCourante.title}</a
+            ></label
+          >
+        </li>
+      {/if}
     {/each}
   </div>
 {/if}

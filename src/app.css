@@ -293,6 +293,7 @@ video {
   color: #848ead;
 }
 
+
 .headTaskContainer{
   display: flex;
   align-items: center;
@@ -318,4 +319,25 @@ video {
 
 .previewTaskChecked{
   text-decoration: line-through;
+=======
+.breadcrumb-content{
+  display: contents;
+  color: #848ead;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.breadcrumb-content > a{
+  display: inline-block;
+}
+
+.breadcrumb-content > a:hover{
+  display: contents;
+  color: black;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
