@@ -28,6 +28,12 @@
     hide = !hide;
   };
 
+  //Pour supprimer une liste
+  const deleteList = (todo: typeListe) => {
+      listeTodos.splice(listeTodos.indexOf(todo), 1)
+      localStorage.setItem("todosList", JSON.stringify(listeTodos));
+      getTodos();
+  }
   // Pour afficher les todos au chargement de la page
   getTodos();
 </script>
@@ -54,22 +60,24 @@
       {#each listeTodos as todo}
         {#if todo.archive !== true}
           <li class="list">
-            <a aria-label={`Lien vers ${todo.title}`} href="/{todo?.urlTitle}">
-              <h3>{todo?.title}</h3>
-            </a>
-            <button on:click={() => archiveTodo(todo)}>
-              <img
-                class="list-button"
-                src="/src/assets/archive.svg"
-                alt="Pour archiver"
-              />
-            </button>
+            <div class="headTaskContainer ">
+              <a aria-label={`Lien vers ${todo.title}`} href="/{todo?.urlTitle}">
+                <h3>{todo?.title}</h3>
+              </a>
+              <button on:click={() => archiveTodo(todo)}>
+                <img
+                        class="list-button"
+                        src="/src/assets/archive.svg"
+                        alt="Pour archiver"
+                />
+              </button>
+            </div>
             {#each { length: 2 } as _, i}
               {#if todo["todos"][i]}
-                <div>
-                  <label for="did">{todo["todos"][i]["task"]}</label>
-                  <!-- Retirer checkbox et mettre image -->
-                  <input type="checkbox" name="did" />
+                <div class="taskContainer">
+                  <label for="did" class:previewTaskChecked={todo["todos"][i].check}>{todo["todos"][i]["task"]}</label>
+                  <div class:checkDiv={todo["todos"][i].check}>
+                  </div>
                 </div>
                 {#if i === 1}
                   <p>...</p>
@@ -90,14 +98,21 @@
       {#each listeTodos as todo}
         {#if todo.archive === true}
           <li class="list">
-            <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
-            <button on:click={() => archiveTodo(todo)}>
-              <img
-                class="list-button"
-                src="/src/assets/archive.svg"
-                alt="Pour archiver"
-              />
-            </button>
+            <div class="headTaskContainer">
+              <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
+              <button on:click={() => archiveTodo(todo)}>
+                <img
+                        class="list-button"
+                        src="/src/assets/archive.svg"
+                        alt="Pour archiver"
+                />
+              </button>
+              <button on:click={() => deleteList(todo)}>
+                <img class="list-button"
+                     src="/src/assets/delete.svg"
+                     alt="Pour supprimer">
+              </button>
+            </div>
           </li>
         {/if}
       {/each}
