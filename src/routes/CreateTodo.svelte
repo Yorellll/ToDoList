@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { pattern, withoutAccent, type taskType, type typeListe } from "../lib/FormList.svelte";
+
+  import {
+    pattern,
+    withoutAccent,
+    type taskType,
+    type typeListe
+  } from "../lib/FormList.svelte";
+  import BreadCrumb from "../lib/BreadCrumb.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -99,6 +106,7 @@
   {#if todoToShow && subLocation}
     {#each todoToShow.subLists as lists}
       {#if withoutAccent(lists.title.replace(pattern, "-").toLowerCase()) === subLocation}
+        <BreadCrumb previousList={todoToShow} currentList={lists} />
         <h1 class="big-title">{lists.title}</h1>
         <div class="input-content">
           <div class="create-input">
