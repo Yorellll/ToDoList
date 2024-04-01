@@ -19,7 +19,6 @@
 
   // Pour récupérer les todos
   todos = JSON.parse(localStorage.getItem("todosList") || "[]");
-  console.log(todos);
 
   // Stock et récupère la liste à afficher qui correspond à mon url
   $: todoToShow = todos.find((todo) => todo.urlTitle === location) as typeListe;
@@ -28,7 +27,7 @@
   const sortTodos = () => {
     tab = [...todoToShow.todos, ...todoToShow.subLists];
 
-    tab.sort((a: any, b: any) => b.date - a.date);
+    tab.sort((a: typeListe, b: taskType) => b.date - a.date);
 
     return true;
   };
@@ -87,16 +86,12 @@
     }
   };
 
-  const deleteTodo = (subList: taskType, taskCourante: taskType) => {
-    // console.log(taskCourante);
-    console.log(subList);
-    const element = subList.filter(subElt => subElt.task !== taskCourante.task);
-
-    console.log(element);
-
-    // todos = [...todos, element];
-
-    // localStorage.setItem("todosList", JSON.stringify(todos));
+  const deleteTodo = (nameTask: string, lists: typeListe) => {
+    // Pour supprimer un élément de la list (pour la liste et la subListe)
+    const removeElt = lists.todos.filter((task) => task.task !== nameTask);
+    lists.todos = removeElt;
+    localStorage.setItem("todosList", JSON.stringify(todos));
+    todos = JSON.parse(localStorage.getItem("todosList") || "[]");
   };
 </script>
 
@@ -131,7 +126,7 @@
                 bind:checked={taskCourante.check}
                 on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
               />
-              <button on:click={() => deleteTodo(lists.todos, taskCourante)}>X</button>
+              <button on:click={() => deleteTodo(taskCourante.task, lists)}>X</button>
             </div>
           {/each}
         </div>
@@ -171,6 +166,7 @@
             bind:checked={taskCourante.check}
             on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
           />
+          <button on:click={() => deleteTodo(taskCourante.task, todoToShow)}>X</button>
         </li>
       {:else}
         <li class:achieve={taskCourante.check} class="task">
