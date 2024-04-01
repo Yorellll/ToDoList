@@ -281,8 +281,11 @@ video {
 
 .list {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   color: #848ead;
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .achievedTask {
@@ -290,6 +293,33 @@ video {
   color: #848ead;
 }
 
+
+.headTaskContainer{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.taskContainer{
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+}
+
+/*.checkDiv {*/
+/*  height: 15px;*/
+/*  width: 15px;*/
+/*  border-radius: 3px;*/
+/*  border: solid black 1px;*/
+/*  background-image: url("src/assets/check.svg");*/
+/*  background-size:cover ;*/
+/*  background-repeat:no-repeat ;*/
+/*}*/
+
+.previewTaskChecked{
+  text-decoration: line-through;
+=======
 .breadcrumb-content{
   display: contents;
   color: #848ead;
