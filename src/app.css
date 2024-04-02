@@ -16,7 +16,6 @@
 
 body {
   min-height: 100dvh;
-  /* background-color: #f2f2f2; */
 }
 
 h1,
@@ -103,7 +102,6 @@ video {
 }
 
 .btn-special {
-  /* background-color: #293356; */
   border-radius: 8px;
   border: 1px solid #293356;
   width: 200px;
@@ -120,7 +118,6 @@ video {
 }
 
 .big-title {
-  /* text-align: center; */
   font-size: 2.8rem;
   font-weight: 800;
   color: #293356;
@@ -143,7 +140,6 @@ video {
 
 .lists {
   & .list {
-    /* padding: 1.2rem;  Ancienne version (au cas-ou) */
     padding: 2rem;
     border-radius: 8px;
     background: #fff;
@@ -161,6 +157,10 @@ video {
 
     & .list-button {
       width: 25px;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     & h3 {
@@ -175,13 +175,9 @@ video {
 .create {
   & .create-input {
     width: 100%;
-    padding: 1.2rem;
+    padding: 1.2rem 1.2rem 1.2rem 0;
     border-radius: 8px;
-    /* background: #fff; */
     margin-bottom: 2.4rem;
-    /* max-width: 54rem; */
-    /* margin-inline: auto; */
-    /* box-shadow: 0px 20px 30px -5px rgba(127, 137, 185, 0.15); */
 
     & label {
       font-size: 1.4rem;
@@ -194,12 +190,14 @@ video {
     & input {
       width: 100%;
       padding: 1.2rem;
-      /* border-radius: 8px; */
-      /* background: #f2f2f2; */
       border-bottom: 2px solid #f2f2f2;
       font-size: 1.4rem;
       font-weight: 600;
       color: #293356;
+
+      &::placeholder {
+        color: #848ead;
+      }
     }
   }
 
@@ -259,12 +257,28 @@ video {
   font-weight: 600;
   margin-bottom: 1.6rem;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
   padding: 2rem;
   border: 1px solid #f2f2f2;
   border-radius: 1rem;
+
+  & .task-content {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 2rem;
+    color: #848ead;
+  }
+
+  & button img {
+    width: 20px;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(0) saturate(100%) invert(10%) sepia(9%) saturate(3713%) hue-rotate(175deg) brightness(96%) contrast(85%);
+    }
+  }
 
   & input[type="checkbox"] {
     accent-color: #848ead;
@@ -277,12 +291,54 @@ video {
   &.achieve {
     background-color: #fafafa;
   }
+
+}
+
+.task-sub a {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  color: #848ead;
+
+  &:hover {
+    color: #293356;
+  }
+
+  & img {
+    width: 8px;
+  }
 }
 
 .list {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   color: #848ead;
+
+  & .list-action {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & .list-preview {
+    margin-top: 2rem;
+    width: 100%;
+    border: 1px solid #becdff;
+    border-radius: 10px;
+    padding: 1.2rem;
+
+    p {
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-bottom: 1px solid #f2f2f2;
+      margin-bottom: 1.2rem;
+      text-indent: 1rem;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
 }
 
 .achievedTask {
@@ -290,22 +346,27 @@ video {
   color: #848ead;
 }
 
-.breadcrumb-content{
-  display: contents;
+.breadcrumb-content {
+  display: flex;
+  gap: 0.6rem;
   color: #848ead;
   font-size: 14px;
   font-style: normal;
   font-weight: 800;
   letter-spacing: 2px;
+  margin-top: 2rem;
+
+  & p {
+    font-weight: 600;
+  }
 }
 
-.breadcrumb-content > a{
+.breadcrumb-content > a {
   display: inline-block;
 }
 
-.breadcrumb-content > a:hover{
-  display: contents;
-  color: black;
+.breadcrumb-content > a:hover {
+  color: #1e2a3a;
   font-size: 14px;
   font-style: normal;
   font-weight: 800;

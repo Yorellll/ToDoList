@@ -1,12 +1,6 @@
 <script lang="ts">
-
-  import {
-    pattern,
-    withoutAccent,
-    type taskType,
-    type typeListe
-  } from "../lib/FormList.svelte";
   import BreadCrumb from "../lib/BreadCrumb.svelte";
+  import { pattern, withoutAccent, type taskType, type typeListe } from "../lib/FormList.svelte";
 
   // Type pour la lsite à afficher
   let todos: typeListe[];
@@ -93,16 +87,24 @@
     }
   };
 
+  // Pour supprimer un élément de la list (pour la liste et la subListe)
   const deleteTodo = (nameTask: string, lists: typeListe) => {
-    // Pour supprimer un élément de la list (pour la liste et la subListe)
     const removeElt = lists.todos.filter((task) => task.task !== nameTask);
     lists.todos = removeElt;
     localStorage.setItem("todosList", JSON.stringify(todos));
     todos = JSON.parse(localStorage.getItem("todosList") || "[]");
   };
+  
+  const deleteSubList = (nameTask: string, lists: typeListe[]) => {
+    const removeSubList = lists.filter((obj) => obj.title !== nameTask);
+    lists = removeSubList;  
+    
+    localStorage.setItem("todosList", JSON.stringify(todos));
+    todos = JSON.parse(localStorage.getItem("todosList") || "[]");
+  };
 </script>
 
-<div class=" create container">
+<div class="create container">
   {#if todoToShow && subLocation}
     {#each todoToShow.subLists as lists}
       {#if withoutAccent(lists.title.replace(pattern, "-").toLowerCase()) === subLocation}
@@ -110,34 +112,39 @@
         <h1 class="big-title">{lists.title}</h1>
         <div class="input-content">
           <div class="create-input">
-            <label for="title">Nom de la liste</label>
+            <label for="subTitleList">Nom de la sous-tâche</label>
             <input
-              id="title"
+              id="subTitleList"
               type="text"
               bind:value={todoTitle.task}
-              placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+              placeholder="Oeufs, Farine, Sucre..."
+              autocomplete="off"
             />
           </div>
-          <button class="btn btn-header" on:click={() => addTodo(lists, false)}> Créer </button>
+          <button class="btn btn-header" on:click={() => addTodo(lists, false)}>Créer</button>
           {#if !subLocation}
-            <button class="btn btn-header" on:click={() => addTodo(lists, true)}> Créer une liste secondaire </button>
+            <button class="btn btn-header" on:click={() => addTodo(lists, true)}> Créer une liste secondaire</button>
           {/if}
         </div>
-        <div class="container">
-          {#each lists.todos as taskCourante}
-            <div class="task">
-              <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
+        {#each lists.todos as taskCourante}
+          <div class="task">
+            <div class="task-content">
+              <label class="nameTask" for={taskCourante.task} class:achievedTask={taskCourante.check}>
+                {taskCourante.task}
+              </label>
               <input
-                id="check"
+                id={taskCourante.task}
                 type="checkbox"
                 name="did"
                 bind:checked={taskCourante.check}
                 on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
               />
-              <button on:click={() => deleteTodo(taskCourante.task, lists)}>X</button>
             </div>
-          {/each}
-        </div>
+            <button on:click={() => deleteTodo(taskCourante.task, lists)}>
+              <img src="/src/assets/x_icon.svg" alt="Supprimer la tâche" />
+            </button>
+          </div>
+        {/each}
       {/if}
     {/each}
   {/if}
@@ -145,17 +152,18 @@
     <h1 class="big-title">{todoToShow.title}</h1>
     <div class="input-content">
       <div class="create-input">
-        <label for="title">Nom de la liste</label>
+        <label for="titleList">Nom de la tâche</label>
         <input
-          id="title"
+          id="titleList"
           type="text"
           bind:value={todoTitle.task}
           placeholder="Repas, Achat Vélo, Gateau au chocolat..."
+          autocomplete="off"
         />
       </div>
-      <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}>Créer</button>
+      <button class="btn btn-header" on:click={() => addTodo(todoToShow, false)}> Créer </button>
       {#if !subLocation}
-        <button class="btn btn-special" on:click={() => addTodo(todoToShow, true)}>Créer une liste secondaire</button>
+        <button class="btn btn-special" on:click={() => addTodo(todoToShow, true)}> Créer une liste secondaire </button>
       {/if}
     </div>
   {/if}
@@ -166,22 +174,37 @@
     {#each tab as taskCourante}
       {#if taskCourante.task}
         <li class:achieve={taskCourante.check} class="task">
-          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}>{taskCourante.task}</label>
-          <input
-            id="check"
-            type="checkbox"
-            name="did"
-            bind:checked={taskCourante.check}
-            on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
-          />
-          <button on:click={() => deleteTodo(taskCourante.task, todoToShow)}>X</button>
+          <div class="task-content">
+            <label class="nameTask" for={taskCourante.task} class:achievedTask={taskCourante.check}>
+              {taskCourante.task}
+            </label>
+            <input
+              id={taskCourante.task}
+              type="checkbox"
+              name="did"
+              bind:checked={taskCourante.check}
+              on:change={() => changeCheckState(taskCourante.task, taskCourante.check)}
+            />
+          </div>
+          <button on:click={() => deleteTodo(taskCourante.task, todoToShow)}>
+            <img src="/src/assets/x_icon.svg" alt="Supprimer la tâche" />
+          </button>
         </li>
       {:else}
-        <li class:achieve={taskCourante.check} class="task">
-          <label class="nameTask" for="did" class:achievedTask={taskCourante.check}
-            ><a aria-label={`Lien vers ${taskCourante.title}`} href="/{taskCourante.urlTitle}">{taskCourante.title}</a
-            ></label
+        <li class:achieve={taskCourante.check} class="task task-sub">
+          <a
+            class="nameTask"
+            class:achievedTask={taskCourante.check}
+            aria-label={`Lien vers ${taskCourante.title}`}
+            href="/{taskCourante.urlTitle}"
           >
+          <img src="/src/assets/chevron_icon.svg" alt="Lien vers la sous-liste">
+            {taskCourante.title}
+          </a>
+
+          <button on:click={() => deleteSubList(taskCourante.title, tab)}>
+            <img src="/src/assets/x_icon.svg" alt="Supprimer la tâche" />
+          </button>
         </li>
       {/if}
     {/each}
