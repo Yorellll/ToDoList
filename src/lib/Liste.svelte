@@ -43,13 +43,23 @@
     <h2 class="big-title">Listes actives</h2>
     {#if hasArchivedTodos}
       {#if hide === true}
-        <button class:active={hide} class="showList" on:click={toggleHideArchive}>
-          <i><img src="/src/assets/show_icon.svg" alt="Afficher les listes archivées"></i>
+        <button
+          aria-label="Pour cacher les listes archivées"
+          class:active={hide}
+          class="showList"
+          on:click={toggleHideArchive}
+        >
+          <i><img src="/src/assets/show_icon.svg" alt="Afficher les listes archivées" /></i>
           Afficher les listes archivées
         </button>
-        {:else}
-        <button class:active={hide} class="showList" on:click={toggleHideArchive}>
-          <i><img src="/src/assets/hide_icon.svg" alt="Cacher les listes archivées"></i>
+      {:else}
+        <button
+          aria-label="Pour afficher les listes archivées"
+          class:active={hide}
+          class="showList"
+          on:click={toggleHideArchive}
+        >
+          <i><img src="/src/assets/hide_icon.svg" alt="Cacher les listes archivées" /></i>
           Cacher les listes archivées
         </button>
       {/if}
@@ -60,30 +70,28 @@
       {#each listeTodos as todo}
         {#if todo.archive !== true}
           <li class="list">
-            <div class="headTaskContainer ">
-              <a aria-label={`Lien vers ${todo.title}`} href="/{todo?.urlTitle}">
-                <h3>{todo?.title}</h3>
+            <div class="list-action">
+              <a aria-label={`Lien vers ${todo.title}`} href="/{todo.urlTitle}">
+                <h3>{todo.title}</h3>
               </a>
-              <button on:click={() => archiveTodo(todo)}>
-                <img
-                        class="list-button"
-                        src="/src/assets/archive.svg"
-                        alt="Pour archiver"
-                />
+              <button aria-label={`Pour archiver la liste ${todo.title}`} on:click={() => archiveTodo(todo)}>
+                <img class="list-button" src="/src/assets/archive.svg" alt="Pour archiver" />
               </button>
             </div>
-            {#each { length: 2 } as _, i}
-              {#if todo["todos"][i]}
-                <div class="taskContainer">
-                  <label for="did" class:previewTaskChecked={todo["todos"][i].check}>{todo["todos"][i]["task"]}</label>
-                  <div class:checkDiv={todo["todos"][i].check}>
-                  </div>
-                </div>
-                {#if i === 1}
-                  <p>...</p>
-                {/if}
-              {/if}
-            {/each}
+            {#if todo.todos.length !== 0}
+              <a class="list-preview" href="/{todo.urlTitle}" aria-label={`Lien vers ${todo.title}`}>
+                {#each { length: 2 } as _, i}
+                  {#if todo["todos"][i]}
+                    <p>
+                      {todo["todos"][i]["task"]}
+                    </p>
+                    {#if i === 1}
+                      <p>...</p>
+                    {/if}
+                  {/if}
+                {/each}
+              </a>
+            {/if}
           </li>
         {/if}
       {/each}
@@ -98,15 +106,10 @@
       {#each listeTodos as todo}
         {#if todo.archive === true}
           <li class="list">
-            <div class="headTaskContainer">
-              <a href="/{todo?.urlTitle}"><h3>{todo?.title}</h3></a>
+            <div class="list-action">
+              <a href="/{todo.urlTitle}"><h3>{todo.title}</h3></a>
               <button on:click={() => archiveTodo(todo)}>
-                <img
-                        class="list-button"
-                        src="/src/assets/archive.svg"
-                        alt="Pour archiver"
-                />
-              </button>
+                <img class="list-button" src="/src/assets/archive.svg" alt="Pour archiver" />
               <button on:click={() => deleteList(todo)}>
                 <img class="list-button"
                      src="/src/assets/delete.svg"

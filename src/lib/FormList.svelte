@@ -20,9 +20,7 @@
   // Définition des variables initiales
   let title = "";
 
-  let todos: typeListe[] = JSON.parse(
-    localStorage.getItem("todosList") || "[]"
-  );
+  let todos: typeListe[] = JSON.parse(localStorage.getItem("todosList") || "[]");
 
   // Pour retirer les accents et caractères spéciaux
   export const withoutAccent = (str: string) => {
@@ -55,15 +53,12 @@
 </script>
 
 <section class="create container">
-  <h1 class="big-title">Créer une liste</h1>
-  <div class="create-input">
-    <label for="title">Nom de la liste</label>
-    <input
-      id="title"
-      type="text"
-      bind:value={title}
-      placeholder="Repas, Achat Vélo, Gateau au chocolat..."
-    />
+  <h1 class="big-title">Créer une nouvelle liste</h1>
+  <form class="input-content">
+    <div class="create-input">
+      <label for="newList">Nom de la liste</label>
+      <input id="newList" type="text" bind:value={title} placeholder="Courses, Achat Vélo, Entretien ..." />
+    </div>
     <button class="btn btn-header" on:click={redirectAndCreate}>Créer</button>
-  </div>
+  </form>
 </section>
