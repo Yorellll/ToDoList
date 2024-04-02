@@ -30,7 +30,7 @@ On peut donc à l'aide de cette application, créée des listes contenant un nom
 |                                                                  |                                                                      |                                                                                |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | <img src="https://github.com/Yorellll.png" alt="Léo" width="200"> | <img src="https://github.com/JacqueVerc.png" alt="Jacques" width="200"> | <img src="https://github.com/Alexandre-st.png" alt="Alexandre-st" width="200"> |
-| [**Léo**](https://github.com/Yorellll)                            | [**Jacques**](https://github.com/JacqueVerc)                                | [**Alexandre-st**](https://github.com/Alexandre-st)   
+| [**Léo**](https://github.com/Yorellll)                            | [**Jacques**](https://github.com/JacqueVerc)                                | [**Alexandre**](https://github.com/Alexandre-st)   
 
 
 
