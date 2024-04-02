@@ -349,6 +349,22 @@ video {
 .breadcrumb-content {
   display: flex;
   gap: 0.6rem;
+
+.headTaskContainer{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.taskContainer{
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.previewTaskChecked{
+  text-decoration: line-through;
   color: #848ead;
   font-size: 14px;
   font-style: normal;
