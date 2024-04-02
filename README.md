@@ -20,10 +20,10 @@ On peut donc à l'aide de cette application, créée des listes contenant un nom
 
 ##Technologies
 
--HTML5
--CSS3
--Typescript
--Svelte.JS
+- HTML5
+- CSS3
+- Typescript
+- Svelte.JS
 
 ##Auteur
 
