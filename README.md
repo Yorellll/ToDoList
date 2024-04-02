@@ -1,11 +1,11 @@
-#To-do list
+# To-do list
 
-##Description
+## Description
 
 Ce projet, est une application web nommé to-do list. Cette application permet de gérer des listes et les tâches qui y sont liés.
 On peut donc à l'aide de cette application, créée des listes contenant un nombre infini d'items, 
 
-##Fonctionnalités
+## Fonctionnalités
 
 - Ajouter une liste
 - Ajouter des tâches à une liste
@@ -18,14 +18,14 @@ On peut donc à l'aide de cette application, créée des listes contenant un nom
 - Archiver une liste
 - Désarchiver une liste
 
-##Technologies
+## Technologies
 
 - HTML5
 - CSS3
 - Typescript
 - Svelte.JS
 
-##Auteur
+## Auteur
 
 |                                                                  |                                                                      |                                                                                |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
