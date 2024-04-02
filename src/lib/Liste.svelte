@@ -30,10 +30,10 @@
 
   //Pour supprimer une liste
   const deleteList = (todo: typeListe) => {
-      listeTodos.splice(listeTodos.indexOf(todo), 1)
-      localStorage.setItem("todosList", JSON.stringify(listeTodos));
-      getTodos();
-  }
+    listeTodos.splice(listeTodos.indexOf(todo), 1);
+    localStorage.setItem("todosList", JSON.stringify(listeTodos));
+    getTodos();
+  };
   // Pour afficher les todos au chargement de la page
   getTodos();
 </script>
@@ -82,7 +82,7 @@
               <a class="list-preview" href="/{todo.urlTitle}" aria-label={`Lien vers ${todo.title}`}>
                 {#each { length: 2 } as _, i}
                   {#if todo["todos"][i]}
-                    <p>
+                    <p class:previewTaskChecked={todo["todos"][i].check}>
                       {todo["todos"][i]["task"]}
                     </p>
                     {#if i === 1}
@@ -108,13 +108,14 @@
           <li class="list">
             <div class="list-action">
               <a href="/{todo.urlTitle}"><h3>{todo.title}</h3></a>
-              <button on:click={() => archiveTodo(todo)}>
-                <img class="list-button" src="/src/assets/archive.svg" alt="Pour archiver" />
-              <button on:click={() => deleteList(todo)}>
-                <img class="list-button"
-                     src="/src/assets/delete.svg"
-                     alt="Pour supprimer">
-              </button>
+              <div class="list-action-btn">
+                <button on:click={() => archiveTodo(todo)}>
+                  <img class="list-button" src="/src/assets/archive.svg" alt="Pour archiver" />
+                </button>
+                <button on:click={() => deleteList(todo)}>
+                  <img class="list-button list-button-delete" src="/src/assets/delete.svg" alt="Pour supprimer" />
+                </button>
+              </div>
             </div>
           </li>
         {/if}

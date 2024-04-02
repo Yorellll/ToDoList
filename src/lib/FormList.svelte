@@ -54,11 +54,11 @@
 
 <section class="create container">
   <h1 class="big-title">Créer une nouvelle liste</h1>
-  <form class="input-content">
+  <div class="input-content">
     <div class="create-input">
       <label for="newList">Nom de la liste</label>
       <input id="newList" type="text" bind:value={title} placeholder="Courses, Achat Vélo, Entretien ..." />
     </div>
     <button class="btn btn-header" on:click={redirectAndCreate}>Créer</button>
-  </form>
+  </div>
 </section>

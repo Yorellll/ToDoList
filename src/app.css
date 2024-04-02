@@ -157,10 +157,17 @@ video {
 
     & .list-button {
       width: 25px;
+      transition: scale 0.3s;
 
       &:hover {
         cursor: pointer;
+        scale: 1.1;
+        transition: scale 0.3s;
       }
+    }
+    
+    & .list-button-delete {
+      width: 22px;
     }
 
     & h3 {
@@ -269,6 +276,10 @@ video {
     justify-content: flex-end;
     gap: 2rem;
     color: #848ead;
+
+    & label:hover, input:hover {
+      cursor: pointer;
+    }
   }
 
   & button img {
@@ -320,6 +331,11 @@ video {
     justify-content: space-between;
   }
 
+  & .list-action-btn {
+    display: flex;
+    gap: 2rem;
+  }
+
   & .list-preview {
     margin-top: 2rem;
     width: 100%;
@@ -349,22 +365,6 @@ video {
 .breadcrumb-content {
   display: flex;
   gap: 0.6rem;
-
-.headTaskContainer{
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 1rem;
-}
-
-.taskContainer{
-  justify-content: center;
-  display: flex;
-  gap: 1rem;
-}
-
-.previewTaskChecked{
-  text-decoration: line-through;
   color: #848ead;
   font-size: 14px;
   font-style: normal;
@@ -387,4 +387,8 @@ video {
   font-style: normal;
   font-weight: 800;
   letter-spacing: 2px;
+}
+
+.previewTaskChecked{
+  text-decoration: line-through;
 }

@@ -95,10 +95,9 @@
     todos = JSON.parse(localStorage.getItem("todosList") || "[]");
   };
   
-  const deleteSubList = (nameTask: string, lists: typeListe[]) => {
-    const removeSubList = lists.filter((obj) => obj.title !== nameTask);
-    lists = removeSubList;  
-    
+  const deleteSubList = (task: typeListe) => {   
+    const removeSubList = todoToShow.subLists.filter((obj) => obj.title !== task.title);
+    todoToShow.subLists = removeSubList;
     localStorage.setItem("todosList", JSON.stringify(todos));
     todos = JSON.parse(localStorage.getItem("todosList") || "[]");
   };
@@ -169,7 +168,7 @@
   {/if}
 </div>
 
-{#if todoToShow && todoToShow.todos.length > 0 && !subLocation && sortTodos()}
+{#if todoToShow && !subLocation && sortTodos()}
   <div class="container">
     {#each tab as taskCourante}
       {#if taskCourante.task}
@@ -202,7 +201,7 @@
             {taskCourante.title}
           </a>
 
-          <button on:click={() => deleteSubList(taskCourante.title, tab)}>
+          <button on:click={() => deleteSubList(taskCourante)}>
             <img src="/src/assets/x_icon.svg" alt="Supprimer la tâche" />
           </button>
         </li>
