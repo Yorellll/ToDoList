@@ -2,8 +2,8 @@
 
 ## Description
 
-Ce projet, est une application web nommé to-do list. Cette application permet de gérer des listes et les tâches qui y sont liés.
-On peut donc à l'aide de cette application, créée des listes contenant un nombre infini d'items, 
+Ce projet, est une application web nommé to-do list. Cette application permet de gérer des listes et les tâches qui y sont liées.
+On peut donc à l'aide de cette application, créée des listes contenant un nombre infini d'items.
 
 ## Fonctionnalités
 
